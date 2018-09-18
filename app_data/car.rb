@@ -1,11 +1,10 @@
 class Car
-  attr_reader :number, :type
+  attr_reader :number
 
   @@cars = []
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
-    type == "passenger" ? @type = type : @type = "cargo"
     @@cars << self
   end
 

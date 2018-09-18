@@ -1,11 +1,10 @@
 class Train
-  attr_reader :number, :type, :speed, :route, :cars
+  attr_reader :number, :speed, :route, :cars
 
   @@trains = []
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
-    type == "passenger" ? @type = type : @type = "cargo"
     @speed = 0
     @cars = []
     @@trains << self
@@ -20,9 +19,7 @@ class Train
   end
 
   def can_attach_or_detach_car?(car)
-    if car
-      self.speed == 0 && car.type.to_s == self.type.to_s
-    end
+      self.speed == 0 && ((car.class.to_s == "CargoCar" && self.class.to_s == "CargoTrain") || (car.class.to_s == "PassengerCar" && self.class.to_s ==  "PassengerTrain")) if car
   end
 
   def attach_car(car)

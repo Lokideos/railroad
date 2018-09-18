@@ -73,7 +73,7 @@ class RailroadUI
             )
             number = gets.chomp
             type = gets.chomp
-            type == "passenger" ? PassengerTrain.new(number, type) : CargoTrain.new(number, "cargo")
+            type == "passenger" ? PassengerTrain.new(number) : CargoTrain.new(number)
           when 2
             chosen_train = find_train
 
@@ -122,7 +122,7 @@ class RailroadUI
             end
 
             puts "Train's current attached cars:"
-            chosen_train.cars.each { |car| puts "#{car.number}: #{car.type} car." }
+            chosen_train.cars.each { |car| puts "#{car.number}" }
           when 6
             chosen_train = find_train
             #find a way to move nil check to private methods
@@ -134,7 +134,7 @@ class RailroadUI
             end
 
             puts "List of available cars:"
-            Car.cars.each { |car| puts "#{car.number}: #{car.type} car" }
+            Car.cars.each { |car| puts "#{car.number}" }
             puts
             puts "Please type in number of car you want to operate with:"
             chosen_car = gets.chomp
@@ -412,7 +412,7 @@ class RailroadUI
             puts "Please type in new car number and type in the respective order:"
             number = gets.chomp
             type = gets.chomp
-            type == "passenger" ? PassengerCar.new(number, type) : CargoCar.new(number, type)      
+            type == "passenger" ? PassengerCar.new(number) : CargoCar.new(number)      
           when 2
             puts
             break
