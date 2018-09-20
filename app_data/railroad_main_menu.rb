@@ -67,13 +67,15 @@ class RailroadUI
           when 1
             puts %q(
             In order to create new train
-            you have to type in train's number
-            and type, which have to be 'cargo' or 'passenger'
-            in the respective order:
+            you have to type in train's number,
+            type, which have to be 'cargo' or 'passenger'
+            and manufacturer (optional) in the respective order:
             )
             number = gets.chomp
             type = gets.chomp
-            type == "passenger" ? PassengerTrain.new(number) : CargoTrain.new(number)
+            manufacturer = gets.chomp
+            manufacturer = "Undefined" unless manufacturer
+            type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
           when 2
             chosen_train = find_train
 
@@ -412,7 +414,9 @@ class RailroadUI
             puts "Please type in new car number and type in the respective order:"
             number = gets.chomp
             type = gets.chomp
-            type == "passenger" ? PassengerCar.new(number) : CargoCar.new(number)      
+            manufacturer = gets.chomp
+            manufacturer = "Undefined" unless manufacturer
+            type == "passenger" ? PassengerCar.new(number, manufacturer) : CargoCar.new(number, manufacturer)      
           when 2
             puts
             break

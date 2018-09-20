@@ -1,5 +1,5 @@
 class CargoCar < Car
-  def initialize(number)
+  def initialize(number, manufacturer)
     super
 
     @type = "cargo"

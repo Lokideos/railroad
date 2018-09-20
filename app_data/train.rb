@@ -1,12 +1,17 @@
+require_relative 'support/manufacturered'
+
 class Train
+  include Manufacturered
+  
   attr_reader :number, :speed, :route, :cars
 
   @@trains = []
 
-  def initialize(number)
+  def initialize(number, manufacturer)
     @number = number
     @speed = 0
     @cars = []
+    @manufacturer = manufacturer
     @@trains << self
   end
 
