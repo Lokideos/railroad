@@ -74,8 +74,12 @@ class Train
     neighbors
   end
 
-  def self.existing_trains
+  def self.all
     @@trains
+  end
+
+  def self.find(number)
+    @@trains.detect { |train| train.number == number }
   end
 
   private

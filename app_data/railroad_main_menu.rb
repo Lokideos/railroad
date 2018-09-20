@@ -227,7 +227,7 @@ class RailroadUI
             end
           when 11
             puts "List of trains created so far:"
-            Train.existing_trains.each { |train| puts train.number }
+            Train.all.each { |train| puts train.number }
             puts
           when 12
             puts
@@ -259,7 +259,7 @@ class RailroadUI
 
             puts "Please type in number of arriving train."
             number = gets.chomp
-            chosen_train = Train.existing_trains.find { |train| train.number == number }
+            chosen_train = Train.find(number)
             chosen_station.arrival_of_train(chosen_train)
           when 3
             chosen_station = find_station
@@ -454,7 +454,7 @@ class RailroadUI
   def self.find_train
     puts "Please type in number of a train."
     number = gets.chomp
-    chosen_train = Train.existing_trains.find { |train| train.number == number }
+    chosen_train = Train.find(number)
   end
 
   def self.find_station
