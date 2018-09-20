@@ -1,6 +1,8 @@
+require_relative 'support/instance_counter'
 require_relative 'support/manufacturered'
 
 class Train
+  include InstanceCounter
   include Manufacturered
   
   attr_reader :number, :speed, :route, :cars
@@ -12,6 +14,7 @@ class Train
     @speed = 0
     @cars = []
     @manufacturer = manufacturer
+    register_instance
     @@trains << self
   end
 
