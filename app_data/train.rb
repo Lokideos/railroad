@@ -18,16 +18,20 @@ class Train
     @speed -= 10 unless @speed == 0
   end
 
-  def can_attach_or_detach_car?(car)
-      self.speed == 0 && ((car.class.to_s == "CargoCar" && self.class.to_s == "CargoTrain") || (car.class.to_s == "PassengerCar" && self.class.to_s ==  "PassengerTrain")) if car
+  def train_stopped?
+    self.speed == 0
+  end
+
+  def same_type_with_car?(car)
+    self.class.to_s.chomp!("Train") == car.class.to_s.chomp!("Car")
   end
 
   def attach_car(car)
-    @cars.push(car) if can_attach_or_detach_car?(car)
+    @cars.push(car) if train_stopped? && same_type_with_car?(car)
   end
 
   def detach_car(car)
-    @cars.delete(car) if can_attach_or_detach_car?(car)
+    @cars.delete(car) if train_stopped? && same_type_with_car?(car)
   end
 
   def assign_route(route)

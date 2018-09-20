@@ -140,7 +140,7 @@ class RailroadUI
             chosen_car = gets.chomp
             chosen_car = Car.cars.find { |car| car.number == chosen_car }
 
-            if chosen_train.can_attach_or_detach_car?(chosen_car)
+            if chosen_train.train_stopped? && chosen_train.same_type_with_car?(chosen_car)
               puts "Car has been successfully attached to this train."
               chosen_train.attach_car(chosen_car)
             else
@@ -162,7 +162,7 @@ class RailroadUI
             puts "Please type in number of car you want to operate with:"
             chosen_car = gets.chomp
             chosen_car = chosen_train.cars.find { |car| car.number == chosen_car }
-            if chosen_train.can_attach_or_detach_car?(chosen_car)
+            if chosen_train.train_stopped? && chosen_train.same_type_with_car?(chosen_car)
               puts "Car has been successfully detached from this train."
               chosen_train.detach_car(chosen_car)
             else
