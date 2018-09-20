@@ -21,7 +21,7 @@ class Station
     @trains.delete(train)
   end
 
-  def self.existing_stations
+  def self.all
     @@stations
   end
 end
