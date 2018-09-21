@@ -227,7 +227,7 @@ class RailroadUI
             end
           when 11
             puts "List of trains created so far:"
-            Train.all.each { |train| puts train.number }
+            Train.all.each { |number, train| puts number }
             puts
           when 12
             puts
