@@ -1,4 +1,8 @@
+require_relative 'support/instance_counter'
+
 class Station
+  include InstanceCounter
+
   attr_reader :name, :trains
 
   @@stations = []
@@ -6,6 +10,7 @@ class Station
   def initialize (name)
     @name = name
     @trains = []
+    register_instance
     @@stations.push(self)
   end
 
@@ -21,7 +26,7 @@ class Station
     @trains.delete(train)
   end
 
-  def self.existing_stations
+  def self.all
     @@stations
   end
 end

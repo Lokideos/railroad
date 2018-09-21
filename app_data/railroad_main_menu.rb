@@ -67,13 +67,15 @@ class RailroadUI
           when 1
             puts %q(
             In order to create new train
-            you have to type in train's number
-            and type, which have to be 'cargo' or 'passenger'
-            in the respective order:
+            you have to type in train's number,
+            type, which have to be 'cargo' or 'passenger'
+            and manufacturer (optional) in the respective order:
             )
             number = gets.chomp
             type = gets.chomp
-            type == "passenger" ? PassengerTrain.new(number) : CargoTrain.new(number)
+            manufacturer = gets.chomp
+            manufacturer = "Undefined" unless manufacturer
+            type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
           when 2
             chosen_train = find_train
 
@@ -225,7 +227,7 @@ class RailroadUI
             end
           when 11
             puts "List of trains created so far:"
-            Train.existing_trains.each { |train| puts train.number }
+            Train.all.each { |number, train| puts number }
             puts
           when 12
             puts
@@ -257,7 +259,7 @@ class RailroadUI
 
             puts "Please type in number of arriving train."
             number = gets.chomp
-            chosen_train = Train.existing_trains.find { |train| train.number == number }
+            chosen_train = Train.find(number)
             chosen_station.arrival_of_train(chosen_train)
           when 3
             chosen_station = find_station
@@ -304,7 +306,7 @@ class RailroadUI
             chosen_station.trains.each { |train| puts train.number if train.type == chosen_type }
           when 6
             puts "List of stations created so far:"
-            Station.existing_stations.each { |station| puts station.name }
+            Station.all.each { |station| puts station.name }
             puts
           when 7
             puts
@@ -328,8 +330,8 @@ class RailroadUI
             )
             first_station = gets.chomp
             second_station = gets.chomp
-            first_station = Station.existing_stations.find { |station| station.name == first_station }
-            second_station = Station.existing_stations.find { |station| station.name == second_station }
+            first_station = Station.all.find { |station| station.name == first_station }
+            second_station = Station.all.find { |station| station.name == second_station }
             if first_station.class.to_s == "Station" && second_station.class.to_s == "Station"
               Route.new(first_station, second_station)
               puts "Route has been succesfully created."
@@ -351,7 +353,7 @@ class RailroadUI
             RailroadUI.show_existing_stations
             puts "Please type in name of the station you want to add to the route."
             chosen_station = gets.chomp
-            chosen_station = Station.existing_stations.find { |station| station.name == chosen_station }
+            chosen_station = Station.all.find { |station| station.name == chosen_station }
             if chosen_station.class.to_s == "Station"
               puts "Station has been succesfully added to route."
               chosen_route.add_station(chosen_station)
@@ -412,7 +414,9 @@ class RailroadUI
             puts "Please type in new car number and type in the respective order:"
             number = gets.chomp
             type = gets.chomp
-            type == "passenger" ? PassengerCar.new(number) : CargoCar.new(number)      
+            manufacturer = gets.chomp
+            manufacturer = "Undefined" unless manufacturer
+            type == "passenger" ? PassengerCar.new(number, manufacturer) : CargoCar.new(number, manufacturer)      
           when 2
             puts
             break
@@ -450,17 +454,17 @@ class RailroadUI
   def self.find_train
     puts "Please type in number of a train."
     number = gets.chomp
-    chosen_train = Train.existing_trains.find { |train| train.number == number }
+    chosen_train = Train.find(number)
   end
 
   def self.find_station
     puts "Please type in name of a station."
     name = gets.chomp
-    chosen_station = Station.existing_stations.find { |station| station.name == name }
+    chosen_station = Station.all.find { |station| station.name == name }
   end
 
   def self.show_existing_stations
-    Station.existing_stations.each { |station| puts station.name }
+    Station.all.each { |station| puts station.name }
   end
 
   def self.show_stations_on_route(chosen_route)

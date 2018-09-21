@@ -1,13 +1,21 @@
+require_relative 'support/instance_counter'
+require_relative 'support/manufacturered'
+
 class Train
+  include InstanceCounter
+  include Manufacturered
+  
   attr_reader :number, :speed, :route, :cars
 
-  @@trains = []
+  @@trains = {}
 
-  def initialize(number)
+  def initialize(number, manufacturer)
     @number = number
     @speed = 0
     @cars = []
-    @@trains << self
+    @manufacturer = manufacturer
+    register_instance
+    @@trains[number] = self
   end
 
   def increase_speed
@@ -69,8 +77,12 @@ class Train
     neighbors
   end
 
-  def self.existing_trains
+  def self.all
     @@trains
+  end
+
+  def self.find(number)
+    @@trains[number]
   end
 
   private
