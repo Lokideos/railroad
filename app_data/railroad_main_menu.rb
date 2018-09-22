@@ -74,7 +74,7 @@ class RailroadUI
             number = gets.chomp
             type = gets.chomp
             manufacturer = gets.chomp
-            manufacturer = "Undefined" unless manufacturer
+            manufacturer = "Undefined" unless manufacturer != ""
             type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
           when 2
             chosen_train = find_train

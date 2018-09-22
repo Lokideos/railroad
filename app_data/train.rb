@@ -1,9 +1,11 @@
 require_relative 'support/instance_counter'
 require_relative 'support/manufacturered'
+require_relative 'support/validable'
 
 class Train
   include InstanceCounter
-  include Manufacturered
+  include Manufacturered  
+  include Validable
   
   attr_reader :number, :speed, :route, :cars
 
@@ -14,6 +16,8 @@ class Train
     @speed = 0
     @cars = []
     @manufacturer = manufacturer
+    validate!
+    duplicate_validate!
     register_instance
     @@trains[number] = self
   end
@@ -113,5 +117,18 @@ class Train
 
   def previous_station_exists?(train_position)
     train_position - 1 >= 0
+  end
+
+  protected
+
+  def validate!
+    raise RuntimeError, "Number can't be empty" if number == "" || number.nil?
+    raise RuntimeError, "Manufacturer can't be empty" if manufacturer == "" || manufacturer.nil?
+    true
+  end
+
+  def duplicate_validate!
+    raise RuntimeError, "Train with this number already exists" if Train.find(number)
+    true
   end
 end
