@@ -71,11 +71,15 @@ class RailroadUI
             type, which have to be 'cargo' or 'passenger'
             and manufacturer (optional) in the respective order:
             )
-            number = gets.chomp
-            type = gets.chomp
-            manufacturer = gets.chomp
-            manufacturer = "Undefined" unless manufacturer != ""
-            type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
+            begin
+              number = gets.chomp
+              type = gets.chomp
+              manufacturer = gets.chomp
+              manufacturer = "Undefined" unless manufacturer != ""
+              type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
+            rescue RuntimeError => e
+              puts "There is an error with your data: #{e.message}."
+            end
           when 2
             chosen_train = find_train
 
