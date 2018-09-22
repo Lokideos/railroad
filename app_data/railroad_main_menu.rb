@@ -411,7 +411,7 @@ class RailroadUI
         loop do
           case RailroadUI.run_sub_menu(CAR_UI_MENU_OPTIONS)
           when 1
-            puts "Please type in new car number and type in the respective order:"
+            puts "Please type in new car number, type and manufacturer in the respective order:"
             number = gets.chomp
             type = gets.chomp
             manufacturer = gets.chomp
