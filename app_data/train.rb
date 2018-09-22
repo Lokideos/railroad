@@ -9,6 +9,8 @@ class Train
   
   attr_reader :number, :speed, :route, :cars
 
+  NUMBER_FORMAT = /^[a-z\d]{3}-*[a-z\d]{2}$/
+
   @@trains = {}
 
   def initialize(number, manufacturer)
@@ -124,6 +126,7 @@ class Train
   def validate!
     raise RuntimeError, "Number can't be empty" if number == "" || number.nil?
     raise RuntimeError, "Manufacturer can't be empty" if manufacturer == "" || manufacturer.nil?
+    raise RuntimeError, "Number is in wrong format" unless number.to_s =~ NUMBER_FORMAT
     true
   end
 
