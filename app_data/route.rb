@@ -13,7 +13,6 @@ class Route
     @stations = [first_station, last_station]
     @name = "#{first_station.name} - #{last_station.name}"
     validate!
-    duplicate_validate!
     register_instance
     @@routes << self
   end
@@ -45,10 +44,6 @@ class Route
   def validate!
     raise RuntimeError, "Name cannot be empty." if name == "" || name.nil?
     raise RuntimeError, "First station can't be the last station." if stations.first == stations.last
-    true
-  end
-
-  def duplicate_validate!
     raise RuntimeError, "Route already exists." if @@routes.find { |route| name == route.name }
     true
   end

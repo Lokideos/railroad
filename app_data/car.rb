@@ -13,7 +13,6 @@ class Car
     @number = number
     @manufacturer = manufacturer
     validate!
-    duplicate_validate!
     @@cars << self
   end
 
@@ -26,12 +25,7 @@ class Car
   def validate!
     raise RuntimeError, "Number cannot be empty." if number == "" || number.nil?
     raise RuntimeError, "Manufacturer cannot be empty." if manufacturer == "" || manufacturer.nil?
-    true
-  end
-
-  def duplicate_validate!
     raise RuntimeError, "Car with this number already exists." if Car.all.find { |car| number == car.number }
     true
   end
-
 end
