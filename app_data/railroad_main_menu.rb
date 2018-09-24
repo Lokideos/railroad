@@ -296,7 +296,7 @@ class RailroadUI
             end
 
             puts "There are several trains arrived on the station now:"
-            chosen_station.trains.each { |train| puts train.number }
+            chosen_station.trains_to_block { |train| puts "#{train.number}: #{train.class}" }
           when 5
             chosen_station = find_station
 
