@@ -5,7 +5,7 @@ class PassengerCar < Car
   def initialize(number, manufacturer, seats)
     super(number, manufacturer)
 
-    @max_seats = seats
+    @max_seats = seats.to_i
     @seats = 0
   end
 
@@ -14,6 +14,6 @@ class PassengerCar < Car
   end
 
   def free_seats
-    max_seats - seats
+    max_seats.to_i - seats.to_i
   end
 end

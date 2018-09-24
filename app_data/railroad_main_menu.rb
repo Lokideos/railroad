@@ -28,7 +28,8 @@ class RailroadUI
     9 => "Move on route.",
     10 => "Show nearby stations",
     11 => "Show all existing trains",
-    12 => "Back to Railroad application main menu."
+    12 => "Manage attached cars",
+    13 => "Back to Railroad application main menu."
   }
 
   STATION_UI_MENU_OPTIONS = {
@@ -234,6 +235,58 @@ class RailroadUI
             Train.all.each { |number, train| puts number }
             puts
           when 12
+            chosen_train = find_train
+            #find a way to move nil check to private methods
+            unless chosen_train
+              puts
+              puts "Train with this number does not exist."
+              puts
+              break
+            end
+
+            puts "List of cars connected to this train:"
+            chosen_train.cars_to_block { |car| puts "#{car.number}: #{car.class}."}
+            puts
+            puts "Type in number of car you want to operate with:"
+            puts
+            number = gets.chomp
+            car = chosen_train.cars.find { |car| number == car.number }
+
+            if car.nil?
+              puts "Car with this number does not exist."
+              break
+            else
+              if car.class.to_s == "PassengerCar"
+                puts "Please type in 'take' if you want to take seat in car, 'show' if you want to see free places."
+                choice = gets.chomp
+                case choice
+                when "take"
+                  car.take_seat
+                when "show"
+                  puts car.free_seats
+                else
+                  puts "You've typed incorrect action."
+                  break
+                end
+              else
+                puts "Please type in 'load' if you want to load something in car, 'show' if you want to check free volume"
+                choice = gets.chomp
+                case choice
+                when "load"
+                  puts "Please type in volume of your goods:"
+                  volume = gets.chomp.to_f
+                  car.load(volume)
+                when "show"
+                  puts car.free_volume
+                else
+                  puts "You've typed incorrect action."
+                  break
+                end
+              end
+            end
+
+
+          when 13
             puts
             break
           else

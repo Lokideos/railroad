@@ -5,7 +5,7 @@ class CargoCar < Car
   def initialize(number, manufacturer, volume)
     super(number, manufacturer)
 
-    @max_volume = volume
+    @max_volume = volume.to_f
     @volume = 0
   end
 
@@ -14,6 +14,6 @@ class CargoCar < Car
   end
 
   def free_volume
-    max_volume - volume
+    max_volume.to_f - volume.to_f
   end
 end
