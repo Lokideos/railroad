@@ -428,8 +428,17 @@ class RailroadUI
               number = gets.chomp
               type = gets.chomp
               manufacturer = gets.chomp
-              manufacturer = "Undefined" unless manufacturer
-              type == "passenger" ? PassengerCar.new(number, manufacturer) : CargoCar.new(number, manufacturer)
+              manufacturer = "Undefined" unless manufacturer != ""
+
+              if type == "passenger"
+                puts "Please type in maximum seats quantity for this car."
+                max_seats = gets.chomp
+                PassengerCar.new(number, manufacturer, max_seats)
+              else
+                puts "please type in maximum volume for this car."
+                max_volume = gets.chomp
+                CargoCar.new(number, manufacturer, max_volume)
+              end
             rescue RuntimeError => e
               puts "There is an error with your data: #{e.message}."
             end
