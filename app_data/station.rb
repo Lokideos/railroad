@@ -12,7 +12,7 @@ class Station
   def initialize (name)
     @name = name
     @trains = []
-    validate!
+    validate_new!
     register_instance
     @@stations.push(self)
   end
@@ -37,6 +37,10 @@ class Station
 
   def validate!
     raise RuntimeError, "Name for station wasn't set" if name.nil? || name == ""
+    true
+  end
+
+  def validate_duplicate!
     raise RuntimeError, "Station with this name already exists." if @@stations.find { |station| name == station.name }
     true
   end

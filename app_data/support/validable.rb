@@ -4,6 +4,11 @@ module Validable
   end
 
   module InstanceMethods
+    def validate_new!
+      validate!
+      validate_duplicate!
+    end
+    
     def valid?
       validate!
     rescue

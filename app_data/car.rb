@@ -12,7 +12,7 @@ class Car
   def initialize(number, manufacturer)
     @number = number
     @manufacturer = manufacturer
-    validate!
+    validate_new!
     @@cars << self
   end
 
@@ -25,6 +25,10 @@ class Car
   def validate!
     raise RuntimeError, "Number cannot be empty." if number == "" || number.nil?
     raise RuntimeError, "Manufacturer cannot be empty." if manufacturer == "" || manufacturer.nil?
+    true
+  end
+
+  def validate_duplicate!
     raise RuntimeError, "Car with this number already exists." if Car.all.find { |car| number == car.number }
     true
   end

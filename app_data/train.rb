@@ -18,7 +18,7 @@ class Train
     @speed = 0
     @cars = []
     @manufacturer = manufacturer
-    validate!
+    validate_new!
     register_instance
     @@trains[number] = self
   end
@@ -126,6 +126,10 @@ class Train
     raise RuntimeError, "Number can't be empty" if number == "" || number.nil?
     raise RuntimeError, "Manufacturer can't be empty" if manufacturer == "" || manufacturer.nil?
     raise RuntimeError, "Number is in wrong format" unless number.to_s =~ NUMBER_FORMAT
+    true
+  end
+
+  def validate_duplicate!
     raise RuntimeError, "Train with this number already exists" if Train.find(number)
     true
   end
