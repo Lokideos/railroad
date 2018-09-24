@@ -1,7 +1,9 @@
 require_relative 'support/instance_counter'
+require_relative 'support/validable'
 
 class Station
   include InstanceCounter
+  include Validable
 
   attr_reader :name, :trains
 
@@ -10,6 +12,7 @@ class Station
   def initialize (name)
     @name = name
     @trains = []
+    validate_new!
     register_instance
     @@stations.push(self)
   end
@@ -28,5 +31,17 @@ class Station
 
   def self.all
     @@stations
+  end
+
+  protected
+
+  def validate!
+    raise RuntimeError, "Name for station wasn't set" if name.nil? || name == ""
+    true
+  end
+
+  def validate_duplicate!
+    raise RuntimeError, "Station with this name already exists." if @@stations.find { |station| name == station.name }
+    true
   end
 end

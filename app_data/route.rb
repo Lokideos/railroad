@@ -1,7 +1,9 @@
 require_relative 'support/instance_counter'
+require_relative 'support/validable'
 
 class Route
   include InstanceCounter
+  include Validable
 
   attr_reader :name, :stations
 
@@ -10,6 +12,7 @@ class Route
   def initialize(first_station, last_station)
     @stations = [first_station, last_station]
     @name = "#{first_station.name} - #{last_station.name}"
+    validate_new!
     register_instance
     @@routes << self
   end
@@ -34,5 +37,18 @@ class Route
 
   def last_station?(station)
     station == @stations[-1]
+  end
+
+  protected
+
+  def validate!
+    raise RuntimeError, "Name cannot be empty." if name == "" || name.nil?
+    raise RuntimeError, "First station can't be the last station." if stations.first == stations.last
+    true
+  end
+
+  def validate_duplicate!
+    raise RuntimeError, "Route already exists." if @@routes.find { |route| name == route.name }
+    true
   end
 end

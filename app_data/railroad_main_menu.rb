@@ -71,11 +71,15 @@ class RailroadUI
             type, which have to be 'cargo' or 'passenger'
             and manufacturer (optional) in the respective order:
             )
-            number = gets.chomp
-            type = gets.chomp
-            manufacturer = gets.chomp
-            manufacturer = "Undefined" unless manufacturer
-            type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
+            begin
+              number = gets.chomp
+              type = gets.chomp
+              manufacturer = gets.chomp
+              manufacturer = "Undefined" unless manufacturer != ""
+              type == "passenger" ? PassengerTrain.new(number, manufacturer) : CargoTrain.new(number, manufacturer)
+            rescue RuntimeError => e
+              puts "There is an error with your data: #{e.message}."
+            end
           when 2
             chosen_train = find_train
 
@@ -243,9 +247,13 @@ class RailroadUI
           puts
           case RailroadUI.run_sub_menu(STATION_UI_MENU_OPTIONS)
           when 1
-            puts "Please type in name of a station."
-            name = gets.chomp
-            Station.new(name)
+            begin
+              puts "Please type in name of a station."
+              name = gets.chomp
+              Station.new(name)
+            rescue RuntimeError => e
+              puts "There is an error with your data: #{e.message}."
+            end
           when 2
             chosen_station = find_station
 
@@ -328,15 +336,19 @@ class RailroadUI
             Please type in names of first station of the route and last station of the route 
             in the respective order.
             )
-            first_station = gets.chomp
-            second_station = gets.chomp
-            first_station = Station.all.find { |station| station.name == first_station }
-            second_station = Station.all.find { |station| station.name == second_station }
-            if first_station.class.to_s == "Station" && second_station.class.to_s == "Station"
-              Route.new(first_station, second_station)
-              puts "Route has been succesfully created."
-            else
-              puts "You typed in wrong station names. Please try again."
+            begin
+              first_station = gets.chomp
+              second_station = gets.chomp
+              first_station = Station.all.find { |station| station.name == first_station }
+              second_station = Station.all.find { |station| station.name == second_station }
+              if first_station.class.to_s == "Station" && second_station.class.to_s == "Station"
+                Route.new(first_station, second_station)
+                puts "Route has been succesfully created."
+              else
+                puts "You typed in wrong station names. Please try again."
+              end
+            rescue RuntimeError => e
+              puts "There is an error in your data: #{e.message}."
             end
           when 2
             chosen_route = find_route
@@ -411,12 +423,16 @@ class RailroadUI
         loop do
           case RailroadUI.run_sub_menu(CAR_UI_MENU_OPTIONS)
           when 1
-            puts "Please type in new car number and type in the respective order:"
-            number = gets.chomp
-            type = gets.chomp
-            manufacturer = gets.chomp
-            manufacturer = "Undefined" unless manufacturer
-            type == "passenger" ? PassengerCar.new(number, manufacturer) : CargoCar.new(number, manufacturer)      
+            begin
+              puts "Please type in new car number, type and manufacturer in the respective order:"
+              number = gets.chomp
+              type = gets.chomp
+              manufacturer = gets.chomp
+              manufacturer = "Undefined" unless manufacturer
+              type == "passenger" ? PassengerCar.new(number, manufacturer) : CargoCar.new(number, manufacturer)
+            rescue RuntimeError => e
+              puts "There is an error with your data: #{e.message}."
+            end
           when 2
             puts
             break
