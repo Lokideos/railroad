@@ -82,8 +82,8 @@ class Train
     neighbors
   end
 
-  def cars_to_block(block)
-    @@cars.each { |car| block.call(car) }
+  def cars_to_block(&block)
+    @cars.each { |car| block.call(car) }
   end
 
   def self.all

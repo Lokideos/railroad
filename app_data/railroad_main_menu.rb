@@ -128,7 +128,7 @@ class RailroadUI
             end
 
             puts "Train's current attached cars:"
-            chosen_train.cars.each { |car| puts "#{car.number}" }
+            chosen_train.cars_to_block { |car| puts "#{car.number}: #{car.class}."}
           when 6
             chosen_train = find_train
             #find a way to move nil check to private methods
@@ -140,11 +140,11 @@ class RailroadUI
             end
 
             puts "List of available cars:"
-            Car.cars.each { |car| puts "#{car.number}" }
+            Car.all.each { |car| puts "#{car.number}" }
             puts
             puts "Please type in number of car you want to operate with:"
             chosen_car = gets.chomp
-            chosen_car = Car.cars.find { |car| car.number == chosen_car }
+            chosen_car = Car.all.find { |car| car.number == chosen_car }
 
             if chosen_train.train_stopped? && chosen_train.same_type_with_car?(chosen_car)
               puts "Car has been successfully attached to this train."
