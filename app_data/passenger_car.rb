@@ -7,6 +7,7 @@ class PassengerCar < Car
 
     @max_seats = seats.to_i
     @seats = 0
+    validate_seats!
   end
 
   def take_seat
@@ -15,5 +16,12 @@ class PassengerCar < Car
 
   def free_seats
     max_seats.to_i - seats.to_i
+  end
+
+  protected
+
+  def validate_seats!
+    raise RuntimeError, "Maximum seats quantity can't be less then 0." if @max_seats < 0
+    true
   end
 end

@@ -7,6 +7,7 @@ class CargoCar < Car
 
     @max_volume = volume.to_f
     @volume = 0
+    validate_volume!
   end
 
   def load(volume)
@@ -15,5 +16,12 @@ class CargoCar < Car
 
   def free_volume
     max_volume.to_f - volume.to_f
+  end
+
+  protected
+
+  def validate_volume!
+    raise RuntimeError, "Maximum volume can't be less then 0." if @max_volume < 0
+    true
   end
 end
