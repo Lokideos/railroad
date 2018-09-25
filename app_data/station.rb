@@ -29,6 +29,10 @@ class Station
     @trains.delete(train)
   end
 
+  def trains_to_block(&block)
+    @trains.each { |train| block.call(train) }
+  end
+
   def self.all
     @@stations
   end

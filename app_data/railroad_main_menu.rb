@@ -28,7 +28,8 @@ class RailroadUI
     9 => "Move on route.",
     10 => "Show nearby stations",
     11 => "Show all existing trains",
-    12 => "Back to Railroad application main menu."
+    12 => "Manage attached cars",
+    13 => "Back to Railroad application main menu."
   }
 
   STATION_UI_MENU_OPTIONS = {
@@ -128,7 +129,7 @@ class RailroadUI
             end
 
             puts "Train's current attached cars:"
-            chosen_train.cars.each { |car| puts "#{car.number}" }
+            chosen_train.cars_to_block { |car| puts "#{car.number}: #{car.class}."}
           when 6
             chosen_train = find_train
             #find a way to move nil check to private methods
@@ -140,11 +141,11 @@ class RailroadUI
             end
 
             puts "List of available cars:"
-            Car.cars.each { |car| puts "#{car.number}" }
+            Car.all.each { |car| puts "#{car.number}" }
             puts
             puts "Please type in number of car you want to operate with:"
             chosen_car = gets.chomp
-            chosen_car = Car.cars.find { |car| car.number == chosen_car }
+            chosen_car = Car.all.find { |car| car.number == chosen_car }
 
             if chosen_train.train_stopped? && chosen_train.same_type_with_car?(chosen_car)
               puts "Car has been successfully attached to this train."
@@ -234,6 +235,58 @@ class RailroadUI
             Train.all.each { |number, train| puts number }
             puts
           when 12
+            chosen_train = find_train
+            #find a way to move nil check to private methods
+            unless chosen_train
+              puts
+              puts "Train with this number does not exist."
+              puts
+              break
+            end
+
+            puts "List of cars connected to this train:"
+            chosen_train.cars_to_block { |car| puts "#{car.number}: #{car.class}."}
+            puts
+            puts "Type in number of car you want to operate with:"
+            puts
+            number = gets.chomp
+            car = chosen_train.cars.find { |car| number == car.number }
+
+            if car.nil?
+              puts "Car with this number does not exist."
+              break
+            else
+              if car.class.to_s == "PassengerCar"
+                puts "Please type in 'take' if you want to take seat in car, 'show' if you want to see free places."
+                choice = gets.chomp
+                case choice
+                when "take"
+                  car.take_seat
+                when "show"
+                  puts car.free_seats
+                else
+                  puts "You've typed incorrect action."
+                  break
+                end
+              else
+                puts "Please type in 'load' if you want to load something in car, 'show' if you want to check free volume"
+                choice = gets.chomp
+                case choice
+                when "load"
+                  puts "Please type in volume of your goods:"
+                  volume = gets.chomp.to_f
+                  car.load(volume)
+                when "show"
+                  puts car.free_volume
+                else
+                  puts "You've typed incorrect action."
+                  break
+                end
+              end
+            end
+
+
+          when 13
             puts
             break
           else
@@ -296,7 +349,7 @@ class RailroadUI
             end
 
             puts "There are several trains arrived on the station now:"
-            chosen_station.trains.each { |train| puts train.number }
+            chosen_station.trains_to_block { |train| puts "#{train.number}: #{train.class}" }
           when 5
             chosen_station = find_station
 
@@ -428,8 +481,17 @@ class RailroadUI
               number = gets.chomp
               type = gets.chomp
               manufacturer = gets.chomp
-              manufacturer = "Undefined" unless manufacturer
-              type == "passenger" ? PassengerCar.new(number, manufacturer) : CargoCar.new(number, manufacturer)
+              manufacturer = "Undefined" unless manufacturer != ""
+
+              if type == "passenger"
+                puts "Please type in maximum seats quantity for this car."
+                max_seats = gets.chomp
+                PassengerCar.new(number, manufacturer, max_seats)
+              else
+                puts "please type in maximum volume for this car."
+                max_volume = gets.chomp
+                CargoCar.new(number, manufacturer, max_volume)
+              end
             rescue RuntimeError => e
               puts "There is an error with your data: #{e.message}."
             end
