@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PassengerCar < Car
   attr_accessor :seats
   attr_reader :max_seats
@@ -21,7 +23,8 @@ class PassengerCar < Car
   protected
 
   def validate_seats!
-    raise RuntimeError, "Maximum seats quantity can't be less then 0." if @max_seats < 0
+    raise "Maximum seats quantity can't be less then 0." if @max_seats.negative?
+
     true
   end
 end

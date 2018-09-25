@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Validable
   def self.included(base)
     base.send :include, InstanceMethods
@@ -8,10 +10,10 @@ module Validable
       validate!
       validate_duplicate!
     end
-    
+
     def valid?
       validate!
-    rescue
+    rescue StandardError
       false
     end
   end

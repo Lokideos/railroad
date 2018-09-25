@@ -1,5 +1,7 @@
-require_relative 'support/instance_counter'
-require_relative 'support/validable'
+# frozen_string_literal: true
+
+require_relative "support/instance_counter"
+require_relative "support/validable"
 
 class Route
   include InstanceCounter
@@ -42,13 +44,15 @@ class Route
   protected
 
   def validate!
-    raise RuntimeError, "Name cannot be empty." if name == "" || name.nil?
-    raise RuntimeError, "First station can't be the last station." if stations.first == stations.last
+    raise "Name cannot be empty." if name == "" || name.nil?
+    raise "First station can't be the last station." if stations.first == stations.last
+
     true
   end
 
   def validate_duplicate!
-    raise RuntimeError, "Route already exists." if @@routes.find { |route| name == route.name }
+    raise "Route already exists." if @@routes.find { |route| name == route.name }
+
     true
   end
 end

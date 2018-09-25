@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CargoCar < Car
   attr_accessor :volume
   attr_reader :max_volume
@@ -21,7 +23,8 @@ class CargoCar < Car
   protected
 
   def validate_volume!
-    raise RuntimeError, "Maximum volume can't be less then 0." if @max_volume < 0
+    raise "Maximum volume can't be less then 0." if @max_volume.negative?
+
     true
   end
 end
