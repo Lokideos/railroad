@@ -1,5 +1,7 @@
-require_relative 'support/instance_counter'
-require_relative 'support/validable'
+# frozen_string_literal: true
+
+require_relative "support/instance_counter"
+require_relative "support/validable"
 
 class Station
   include InstanceCounter
@@ -9,7 +11,7 @@ class Station
 
   @@stations = []
 
-  def initialize (name)
+  def initialize(name)
     @name = name
     @trains = []
     validate_new!
@@ -29,8 +31,8 @@ class Station
     @trains.delete(train)
   end
 
-  def trains_to_block(&block)
-    @trains.each { |train| block.call(train) }
+  def trains_to_block
+    @trains.each { |train| yield(train) }
   end
 
   def self.all
@@ -40,12 +42,16 @@ class Station
   protected
 
   def validate!
-    raise RuntimeError, "Name for station wasn't set" if name.nil? || name == ""
+    raise "Name for station wasn't set" if name.nil? || name == ""
+
     true
   end
 
   def validate_duplicate!
-    raise RuntimeError, "Station with this name already exists." if @@stations.find { |station| name == station.name }
+    if @@stations.find { |station| name == station.name }
+      raise "Station with this name already exists."
+    end
+
     true
   end
 end
