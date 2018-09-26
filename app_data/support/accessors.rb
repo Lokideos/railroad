@@ -3,7 +3,6 @@
 module Accessors
   def self.included(base)
     base.extend ClassMethods
-    base.send :include, InstanceMethods
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -37,7 +36,4 @@ module Accessors
     end
   end
   # rubocop:enable Metrics/MethodLength
-
-  module InstanceMethods
-  end
 end
