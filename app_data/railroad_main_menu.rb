@@ -91,13 +91,8 @@ class RailroadUI
             when 2
               chosen_train = find_train
 
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               puts "Train's speed has been successfully increased by 10."
               chosen_train.increase_speed
@@ -106,7 +101,7 @@ class RailroadUI
               # find a way to move nil check to private methods
               unless chosen_train
                 puts
-                puts "Train with this number does not exist."
+                puts "Train with this number does not exist." unless chosen_train
                 puts
                 break
               end
@@ -115,13 +110,9 @@ class RailroadUI
               puts chosen_train.speed
             when 4
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               puts "Train's speed has been successfully decreased by 10."
               chosen_train.decrease_speed
@@ -130,7 +121,7 @@ class RailroadUI
               # find a way to move nil check to private methods
               unless chosen_train
                 puts
-                puts "Train with this number does not exist."
+                puts "Train with this number does not exist." unless chosen_train
                 puts
                 break
               end
@@ -139,13 +130,9 @@ class RailroadUI
               chosen_train.cars_to_block { |car| puts "#{car.number}: #{car.class}." }
             when 6
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               puts "List of available cars:"
               Car.all.each { |car| puts car.number.to_s }
@@ -163,13 +150,9 @@ class RailroadUI
               end
             when 7
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               puts "List of available cars:"
               chosen_train.cars.each { |car| puts car.number.to_s }
@@ -186,13 +169,9 @@ class RailroadUI
               end
             when 8
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               puts "Please type in name of route you want to assign to this train."
               puts "List of existing routes:"
@@ -207,13 +186,9 @@ class RailroadUI
               end
             when 9
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               if chosen_train.route
                 puts "Please type in direction in which you want to move on the current route."
@@ -225,13 +200,9 @@ class RailroadUI
               end
             when 10
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               if chosen_train.route
                 puts "List of nearby stations on the route:"
@@ -245,13 +216,9 @@ class RailroadUI
               puts
             when 12
               chosen_train = find_train
-              # find a way to move nil check to private methods
-              unless chosen_train
-                puts
-                puts "Train with this number does not exist."
-                puts
-                break
-              end
+
+              puts "Train with this number does not exist." unless chosen_train
+              break unless chosen_train
 
               puts "List of cars connected to this train:"
               chosen_train.cars_to_block { |car| puts "#{car.number}: #{car.class}." }
@@ -320,13 +287,8 @@ class RailroadUI
             when 2
               chosen_station = find_station
 
-              # find a way to move nil check to private methods
-              unless chosen_station
-                puts
-                puts "Station with this name does not exist."
-                puts
-                break
-              end
+              puts "Station with this name does not exist." unless chosen_station
+              break unless chosen_station
 
               puts "Please type in number of arriving train."
               number = gets.chomp
@@ -335,13 +297,8 @@ class RailroadUI
             when 3
               chosen_station = find_station
 
-              # find a way to move nil check to private methods
-              unless chosen_station
-                puts
-                puts "Station with this name does not exist."
-                puts
-                break
-              end
+              puts "Station with this name does not exist." unless chosen_station
+              break unless chosen_station
 
               puts "Please type in number of departuring train."
               number = gets.chomp
@@ -350,26 +307,16 @@ class RailroadUI
             when 4
               chosen_station = find_station
 
-              # find a way to move nil check to private methods
-              unless chosen_station
-                puts
-                puts "Station with this name does not exist."
-                puts
-                break
-              end
+              puts "Station with this name does not exist." unless chosen_station
+              break unless chosen_station
 
               puts "There are several trains arrived on the station now:"
               chosen_station.trains_to_block { |train| puts "#{train.number}: #{train.class}" }
             when 5
               chosen_station = find_station
 
-              # find a way to move nil check to private methods
-              unless chosen_station
-                puts
-                puts "Station with this name does not exist."
-                puts
-                break
-              end
+              puts "Station with this name does not exist." unless chosen_station
+              break unless chosen_station
 
               puts "Now you will be given information
                     about arrived on current station trains of specific type."
@@ -417,13 +364,8 @@ class RailroadUI
             when 2
               chosen_route = find_route
 
-              # find a way to move nil check to private methods
-              unless chosen_route
-                puts
-                puts "Route with this name does not exist."
-                puts
-                break
-              end
+              puts "Route with this name does not exist." unless chosen_route
+              break unless chosen_route
 
               puts "List of existing stations:"
               RailroadUI.show_existing_stations
@@ -439,13 +381,8 @@ class RailroadUI
             when 3
               chosen_route = find_route
 
-              # find a way to move nil check to private methods
-              unless chosen_route
-                puts
-                puts "Route with this name does not exist."
-                puts
-                break
-              end
+              puts "Route with this name does not exist." unless chosen_route
+              break unless chosen_route
 
               RailroadUI.show_stations_on_route(chosen_route)
               puts "Please type in name of station you want to delete:"
@@ -464,13 +401,8 @@ class RailroadUI
             when 4
               chosen_route = find_route
 
-              # find a way to move nil check to private methods
-              unless chosen_route
-                puts
-                puts "Route with this name does not exist."
-                puts
-                break
-              end
+              puts "Route with this name does not exist." unless chosen_route
+              break unless chosen_route
 
               RailroadUI.show_stations_on_route(chosen_route)
             when 5
