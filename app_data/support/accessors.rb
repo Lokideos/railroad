@@ -24,6 +24,17 @@ module Accessors
         end
       end
     end
+
+    def strong_attr_accessor(attribute_name, klass)
+      variable_name = "@#{attribute_name}".to_sym
+
+      define_method(attribute_name) { instance_variable_get(variable_name) }
+      define_method("#{attribute_name}=".to_sym) do |value|
+        raise "Wrong type of value" unless value.class.to_s == klass.to_s
+
+        instance_variable_set(variable_name, value)
+      end
+    end
   end
   # rubocop:enable Metrics/MethodLength
 
