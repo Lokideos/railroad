@@ -9,6 +9,13 @@ require_relative "cargo_train"
 require_relative "passenger_car"
 require_relative "passenger_train"
 
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/BlockLength
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/BlockNesting
+# rubocop:disable Style/IfInsideElse
 class RailroadUI
   RAILROAD_MAIN_MENU_OPTIONS = {
     1 => "Manage trains",
@@ -500,3 +507,10 @@ class RailroadUI
     end
   end
 end
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/BlockLength
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/BlockNesting
+# rubocop:enable Style/IfInsideElse

@@ -4,6 +4,8 @@ require_relative "support/instance_counter"
 require_relative "support/manufacturered"
 require_relative "support/validable"
 
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Style/GuardClause
 class Train
   include InstanceCounter
   include Manufacturered
@@ -143,3 +145,5 @@ class Train
     true
   end
 end
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Style/GuardClause
