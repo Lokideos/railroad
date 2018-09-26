@@ -23,6 +23,12 @@ module Validation
           raise "Wrong format of @#{attribute_name}" if instance_variable_get("@#{attribute_name}".to_sym) !~ option
         end
       end
+
+      if validation_type_name == :type
+        define_method(validation_type_name) do
+          raise "Wrong type of @#{attribute_name}" unless instance_variable_get("@#{attribute_name}".to_sym).class.to_s == option.to_s
+        end
+      end
     end
   end
 
@@ -30,6 +36,7 @@ module Validation
     def validate!
       presence if methods.find { |method_name| method_name == :presence }
       format if methods.find { |method_name| method_name == :format }
+      type if methods.find { |method_name| method_name == :type }
       true
     end
 
