@@ -6,31 +6,36 @@ module Validation
     base.send :include, InstanceMethods
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/AbcSize
   module ClassMethods
     def validate(attr_name, validation_type, *args)
       attribute_name = attr_name.to_sym
       validation_type_name = validation_type.to_s.to_sym
       option = args[0]
 
-      if validation_type_name == :presence
+      case validation_type_name
+      when :presence
         define_method(validation_type_name) do
           raise "Object @#{attribute_name} doesn't exist" if instance_variable_get("@#{attribute_name}".to_sym).nil?
         end
-      end
-
-      if validation_type_name == :format
+      when :format
         define_method(validation_type_name) do
-          raise "Wrong format of @#{attribute_name}" if instance_variable_get("@#{attribute_name}".to_sym) !~ option
+          raise "Wrong format of @#{attribute_name}" unless instance_variable_get("@#{attribute_name}".to_sym) =~ option
         end
-      end
-
-      if validation_type_name == :type
+      when :type
         define_method(validation_type_name) do
           raise "Wrong type of @#{attribute_name}" unless instance_variable_get("@#{attribute_name}".to_sym).class.to_s == option.to_s
         end
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Metrics/MethodLength
 
   module InstanceMethods
     def validate!
