@@ -2,18 +2,24 @@
 
 require_relative "support/instance_counter"
 require_relative "support/manufacturered"
-require_relative "support/validable"
+require_relative "support/validation"
 
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Style/GuardClause
 class Train
   include InstanceCounter
   include Manufacturered
-  include Validable
+  include Validation
 
   attr_reader :number, :speed, :route, :cars
 
   NUMBER_FORMAT = /^[a-z\d]{3}-*[a-z\d]{2}$/
+
+  validate :number, :presence
+  validate :manufacturer, :presence
+
+  validate :number, :format, NUMBER_FORMAT
+  validate :number, :type, String
 
   @@trains = {}
 
@@ -22,7 +28,7 @@ class Train
     @speed = 0
     @cars = []
     @manufacturer = manufacturer
-    validate_new!
+    validate!
     register_instance
     @@trains[number] = self
   end
@@ -127,22 +133,6 @@ class Train
 
   def previous_station_exists?(train_position)
     train_position - 1 >= 0
-  end
-
-  protected
-
-  def validate!
-    raise "Number can't be empty" if number == "" || number.nil?
-    raise "Manufacturer can't be empty" if manufacturer == "" || manufacturer.nil?
-    raise "Number is in wrong format" unless number.to_s =~ NUMBER_FORMAT
-
-    true
-  end
-
-  def validate_duplicate!
-    raise "Train with this number already exists" if Train.find(number)
-
-    true
   end
 end
 # rubocop:enable Metrics/AbcSize

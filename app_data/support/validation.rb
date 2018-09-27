@@ -19,7 +19,9 @@ module Validation
       case validation_type_name
       when :presence
         define_method(validation_type_name) do
-          raise "Object @#{attribute_name} doesn't exist" if instance_variable_get("@#{attribute_name}".to_sym).nil?
+          if instance_variable_get("@#{attribute_name}".to_sym).nil? || instance_variable_get("@#{attribute_name}".to_sym) == ""
+            raise "Object @#{attribute_name} doesn't exist"
+          end
         end
       when :format
         define_method(validation_type_name) do

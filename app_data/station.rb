@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
 require_relative "support/instance_counter"
-require_relative "support/validable"
+require_relative "support/validation"
 
 class Station
   include InstanceCounter
-  include Validable
+  include Validation
 
   attr_reader :name, :trains
+
+  validate :name, :presence
 
   @@stations = []
 
   def initialize(name)
     @name = name
+    validate!
     @trains = []
-    validate_new!
     register_instance
     @@stations.push(self)
   end
@@ -37,21 +39,5 @@ class Station
 
   def self.all
     @@stations
-  end
-
-  protected
-
-  def validate!
-    raise "Name for station wasn't set" if name.nil? || name == ""
-
-    true
-  end
-
-  def validate_duplicate!
-    if @@stations.find { |station| name == station.name }
-      raise "Station with this name already exists."
-    end
-
-    true
   end
 end

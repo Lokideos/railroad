@@ -1,20 +1,26 @@
 # frozen_string_literal: true
 
 require_relative "support/instance_counter"
-require_relative "support/validable"
+require_relative "support/validation"
 
 class Route
   include InstanceCounter
-  include Validable
+  include Validation
 
   attr_reader :name, :stations
+
+  validate :name, :presence
+  validate :first_station, :type, Station
+  validate :last_station, :type, Station
 
   @@routes = []
 
   def initialize(first_station, last_station)
-    @stations = [first_station, last_station]
+    @first_station = first_station
+    @last_station = last_station
+    @stations = [@first_station, @last_station]
     @name = "#{first_station.name} - #{last_station.name}"
-    validate_new!
+    validate!
     register_instance
     @@routes << self
   end
@@ -39,20 +45,5 @@ class Route
 
   def last_station?(station)
     station == @stations[-1]
-  end
-
-  protected
-
-  def validate!
-    raise "Name cannot be empty." if name == "" || name.nil?
-    raise "First station can't be the last station." if stations.first == stations.last
-
-    true
-  end
-
-  def validate_duplicate!
-    raise "Route already exists." if @@routes.find { |route| name == route.name }
-
-    true
   end
 end
