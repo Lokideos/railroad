@@ -25,11 +25,15 @@ module Validation
         end
       when :format
         define_method(validation_type_name) do
-          raise "Wrong format of @#{attribute_name}" unless instance_variable_get("@#{attribute_name}".to_sym) =~ option
+          unless instance_variable_get("@#{attribute_name}".to_sym).match? option
+            raise "Wrong format of @#{attribute_name}"
+          end
         end
       when :type
         define_method(validation_type_name) do
-          raise "Wrong type of @#{attribute_name}" unless instance_variable_get("@#{attribute_name}".to_sym).class.to_s == option.to_s
+          unless instance_variable_get("@#{attribute_name}".to_sym).class.to_s == option.to_s
+            raise "Wrong type of @#{attribute_name}"
+          end
         end
       end
     end
